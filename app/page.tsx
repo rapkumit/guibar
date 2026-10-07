@@ -14,9 +14,9 @@ export default function Home() {
   // Sequence Controls
   const [prefix, setPrefix] = useState("A-");
   const [suffix, setSuffix] = useState("-Z");
-  const [startVal, setStartVal] = useState(10);
-  const [endVal, setEndVal] = useState(100);
-  const [increment, setIncrement] = useState(10);
+  const [startVal, setStartVal] = useState(1);
+  const [endVal, setEndVal] = useState(10);
+  const [increment, setIncrement] = useState(1);
 
   // Page Controls
   const [paperType, setPaperType] = useState<keyof typeof PAPER_SIZES>("A4");
