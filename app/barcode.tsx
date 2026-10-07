@@ -29,12 +29,17 @@ export default function Barcode({
   const paddingPx = Math.round(paddingCm * 37.795);
 
   useEffect(() => {
-    if (!svgRef.current || !isValid) return;
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    svg.innerHTML = "";
+
+    if (!isValid) return;
 
     try {
-      JsBarcode(svgRef.current, paddedValue, {
+      JsBarcode(svg, paddedValue, {
         format: "ITF",
-        text: displayValue || value,
+        text: displayValue || paddedValue,
         width: 2,
         height: Math.max(15, heightPx - paddingPx * 2 - 22),
         margin: 2,
@@ -44,7 +49,7 @@ export default function Barcode({
     } catch {
       // Handle invalid renders gracefully
     }
-  }, [paddedValue, displayValue, value, isValid, heightPx, paddingPx]);
+  }, [paddedValue, displayValue, isValid, heightPx, paddingPx]);
 
   return (
     <div
