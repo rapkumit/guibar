@@ -94,7 +94,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-zinc-950 font-sans text-gray-800 dark:text-gray-100">
+    <div className="print-root flex h-screen bg-gray-100 dark:bg-zinc-950 font-sans text-gray-800 dark:text-gray-100">
       
       {/* Strict Print CSS */}
       <style>{`
@@ -103,12 +103,25 @@ export default function Home() {
           margin: 0;
         }
         @media print {
-          html, body, main {
+          html, body {
             background: white !important;
             margin: 0 !important;
             padding: 0 !important;
             height: auto !important;
+            overflow: visible !important;
+          }
 
+          .print-root {
+            display: block !important;
+            height: auto !important;
+            overflow: visible !important;
+          }
+
+          .print-preview {
+            display: block !important;
+            height: auto !important;
+            overflow: visible !important;
+            padding: 0 !important;
           }
 
           aside, button {
@@ -116,11 +129,15 @@ export default function Home() {
           }
 
           .print-page {
+            display: block !important;
             box-shadow: none !important;
             border: none !important;
             margin: 0 !important;
             width: ${selectedPaper.widthMm}mm !important;
             height: ${selectedPaper.heightMm}mm !important;
+            overflow: hidden !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
             page-break-after: always !important;
             break-after: page !important;
             box-sizing: border-box !important;
@@ -298,7 +315,7 @@ export default function Home() {
       </aside>
 
       {/* PREVIEW CONTAINER */}
-      <main className="flex-1 p-8 overflow-auto flex flex-col items-center gap-8">
+      <main className="print-preview flex-1 p-8 overflow-auto flex flex-col items-center gap-8">
         {pages.length === 0 ? (
           <div
             style={{
