@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import JsBarcode from "jsbarcode";
 
-interface BarcodeProps {
+interface BarcodeTagProps {
   value: string;
   displayValue?: string;
   widthPx: number;
@@ -12,14 +12,14 @@ interface BarcodeProps {
   extraLabelText?: string;
 }
 
-export default function Barcode({
+export default function BarcodeTag({
   value,
   displayValue,
   widthPx,
   heightPx,
   paddingCm = 0.1,
   extraLabelText = "",
-}: BarcodeProps) {
+}: BarcodeTagProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const cleanValue = value.replace(/\D/g, "");
