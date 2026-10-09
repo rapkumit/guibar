@@ -22,10 +22,11 @@ export default function Home() {
   const [paperType, setPaperType] = useState<keyof typeof PAPER_SIZES>("A4");
   const [marginCm, setMarginCm] = useState(1.0);
   const [pcsPerCode, setPcsPerCode] = useState(16);
-  const [barcodeWidthCm, setBarcodeWidthCm] = useState(3.5);
+  const [barcodeWidthCm, setBarcodeWidthCm] = useState(3);
   const [barcodeHeightCm, setBarcodeHeightCm] = useState(2.0);
   const [paddingCm, setPaddingCm] = useState(0.1);
   const [barcodeGapCm, setBarcodeGapCm] = useState(0.2);
+  const [extraLabels, setExtraLabels] = useState<{ ids: string; text: string }[]>([]);
 
   const [generatedSequence, setGeneratedSequence] = useState<string[]>([]);
   const [settingsOpen, setSettingsOpen] = useState(true);
@@ -153,24 +154,28 @@ export default function Home() {
       `}</style>
 
       {/* SIDEBAR CONTROL PANEL */}
-      <aside className="flex w-full flex-col gap-6 bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-6 xl:h-full xl:w-80 xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-gray-300 xl:dark:border-zinc-800">
+      <aside className="flex w-full flex-col gap-4 bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-5 xl:h-full xl:w-80 xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-gray-300 xl:dark:border-zinc-800">
+        <div>
+          <h1 className="text-xl font-bold">Barcode generator</h1>
+          <p className="text-sm text-gray-500">Configure and print barcode sheets</p>
+        </div>
         <button
           type="button"
           aria-expanded={settingsOpen}
           aria-controls="settings-panel"
           onClick={() => setSettingsOpen((open) => !open)}
-          className="w-full rounded-md border border-gray-300 px-4 py-2 text-left font-semibold transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 text-left text-sm font-semibold transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
         >
           {settingsOpen ? "Hide settings" : "Show settings"}
         </button>
 
         <div
           id="settings-panel"
-          className={`${settingsOpen ? "flex" : "hidden"} flex-col gap-6`}
+          className={`${settingsOpen ? "flex" : "hidden"} flex-col gap-4`}
         >
         {/* Sequence Settings */}
-        <section className="border border-gray-300 dark:border-zinc-700 rounded-md p-4 bg-gray-50 dark:bg-zinc-800/50">
-          <h2 className="text-lg font-bold mb-3">Generate Sequence</h2>
+        <section className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50">
+          <h2 className="mb-3 text-base font-bold">Generate sequence</h2>
 
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div>
@@ -193,7 +198,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-xs font-semibold block text-gray-500">Start Value</label>
               <input
@@ -234,11 +239,11 @@ export default function Home() {
         </section>
 
         {/* Page & Dimension Settings */}
-        <section className="space-y-3">
-          <h2 className="text-xl font-bold">Page Settings</h2>
+        <section className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50">
+          <h2 className="text-base font-bold">Sheet &amp; tag layout</h2>
 
           <div>
-            <label className="text-xs font-semibold block text-gray-500">Paper Size</label>
+            <label className="mb-1 block text-xs font-semibold text-gray-500">Paper size</label>
             <select
               value={paperType}
               onChange={(e) => setPaperType(e.target.value as keyof typeof PAPER_SIZES)}
@@ -252,81 +257,145 @@ export default function Home() {
             </select>
           </div>
 
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">Page Margin (cm)</label>
-            <input
-              type="number"
-              step="0.1"
-              value={marginCm}
-              onChange={(e) => setMarginCm(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Page margin (cm)</label>
+              <input
+                type="number"
+                step="0.1"
+                value={marginCm}
+                onChange={(e) => setMarginCm(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Tag gap (cm)</label>
+              <input
+                type="number"
+                step="0.05"
+                min="0"
+                value={barcodeGapCm}
+                onChange={(e) => setBarcodeGapCm(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Copies per ID</label>
+              <input
+                type="number"
+                min="1"
+                value={pcsPerCode}
+                onChange={(e) => setPcsPerCode(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Tag width (cm)</label>
+              <input
+                type="number"
+                step="0.1"
+                value={barcodeWidthCm}
+                onChange={(e) => setBarcodeWidthCm(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Tag height (cm)</label>
+              <input
+                type="number"
+                step="0.1"
+                value={barcodeHeightCm}
+                onChange={(e) => setBarcodeHeightCm(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-gray-500">Tag padding (cm)</label>
+              <input
+                type="number"
+                step="0.05"
+                min="0"
+                value={paddingCm}
+                onChange={(e) => setPaddingCm(Number(e.target.value))}
+                className="w-full rounded border px-2 py-1 text-sm dark:bg-zinc-800"
+              />
+            </div>
           </div>
-
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">Gap between Barcodes (cm)</label>
-            <input
-              type="number"
-              step="0.05"
-              min="0"
-              value={barcodeGapCm}
-              onChange={(e) => setBarcodeGapCm(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">How many pcs each code</label>
-            <input
-              type="number"
-              min="1"
-              value={pcsPerCode}
-              onChange={(e) => setPcsPerCode(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">Barcode Width (cm)</label>
-            <input
-              type="number"
-              step="0.1"
-              value={barcodeWidthCm}
-              onChange={(e) => setBarcodeWidthCm(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">Barcode Height (cm)</label>
-            <input
-              type="number"
-              step="0.1"
-              value={barcodeHeightCm}
-              onChange={(e) => setBarcodeHeightCm(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold block text-gray-500">Barcode Padding (cm)</label>
-            <input
-              type="number"
-              step="0.05"
-              min="0"
-              value={paddingCm}
-              onChange={(e) => setPaddingCm(Number(e.target.value))}
-              className="w-full border rounded px-2 py-1 text-sm dark:bg-zinc-800"
-            />
-          </div>
-
-          <button
-            onClick={() => window.print()}
-            className="w-full mt-2 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2 rounded-md transition-colors"
-          >
-            Print Sheet
-          </button>
         </section>
+
+        <details className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50">
+          <summary className="cursor-pointer text-base font-bold">
+            <span className="flex items-center justify-between">
+              <span>Text per barcode ID</span>
+              <span className="text-xs font-normal text-gray-500">
+                {extraLabels.length ? `${extraLabels.length} ${extraLabels.length === 1 ? "rule" : "rules"}` : "Optional"}
+              </span>
+            </span>
+          </summary>
+          <div className="mt-3 space-y-3">
+            <div>
+              <h3 className="text-xs text-gray-500">
+                Separate IDs with commas or &amp;. Keep leading zeros; IDs in the same row share the text.
+              </h3>
+            </div>
+            {extraLabels.map((label, index) => (
+              <div key={index} className="flex flex-col gap-2 rounded-md border border-gray-200 bg-white p-2 dark:border-zinc-700 dark:bg-zinc-900">
+                <input
+                  type="text"
+                  aria-label={`Barcode IDs for label ${index + 1}`}
+                  value={label.ids}
+                  onChange={(e) =>
+                    setExtraLabels((labels) =>
+                      labels.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, ids: e.target.value } : item
+                      )
+                    )
+                  }
+                  placeholder="IDs (e.g. 0001, 0003, & 0005)"
+                  className="w-full min-w-0 rounded border px-2 py-1.5 text-sm dark:bg-zinc-800"
+                />
+                <input
+                  type="text"
+                  aria-label={`Text for barcode IDs ${label.ids || index + 1}`}
+                  value={label.text}
+                  onChange={(e) =>
+                    setExtraLabels((labels) =>
+                      labels.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, text: e.target.value } : item
+                      )
+                    )
+                  }
+                  placeholder="Text (e.g. $12.99)"
+                  className="w-full min-w-0 rounded border px-2 py-1.5 text-sm dark:bg-zinc-800"
+                />
+                <button
+                  type="button"
+                  aria-label={`Remove text for barcode IDs ${label.ids || index + 1}`}
+                  onClick={() =>
+                    setExtraLabels((labels) => labels.filter((_, itemIndex) => itemIndex !== index))
+                  }
+                  className="self-end rounded px-2 py-1 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-zinc-800"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => setExtraLabels((labels) => [...labels, { ids: "", text: "" }])}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+            >
+              Add ID text
+            </button>
+          </div>
+        </details>
+
+        <button
+          onClick={() => window.print()}
+          className="w-full rounded-md bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700"
+        >
+          Print sheet
+        </button>
         </div>
       </aside>
 
@@ -370,6 +439,14 @@ export default function Home() {
                     widthPx={itemWidthPx}
                     heightPx={itemHeightPx}
                     paddingCm={paddingCm}
+                    extraLabelText={
+                      extraLabels.find((label) =>
+                        label.ids
+                          .split(/[,&]/)
+                          .map((id) => id.trim())
+                          .includes(item.numStr)
+                      )?.text
+                    }
                   />
                 ))}
               </div>
