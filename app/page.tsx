@@ -28,6 +28,7 @@ export default function Home() {
   const [barcodeGapCm, setBarcodeGapCm] = useState(0.2);
 
   const [generatedSequence, setGeneratedSequence] = useState<string[]>([]);
+  const [settingsOpen, setSettingsOpen] = useState(true);
 
   // Standard CSS DPI conversion (96dpi -> 1cm = 37.795px, 1mm = 3.7795px)
   const cmToPx = (cm: number) => Math.round(cm * 37.795);
@@ -94,7 +95,7 @@ export default function Home() {
   }
 
   return (
-    <div className="print-root flex h-screen bg-gray-100 dark:bg-zinc-950 font-sans text-gray-800 dark:text-gray-100">
+    <div className="print-root flex min-h-screen flex-col bg-gray-100 font-sans text-gray-800 dark:bg-zinc-950 dark:text-gray-100 xl:h-screen xl:flex-row">
       
       {/* Strict Print CSS */}
       <style>{`
@@ -133,6 +134,7 @@ export default function Home() {
             box-shadow: none !important;
             border: none !important;
             margin: 0 !important;
+            zoom: 1 !important;
             width: ${selectedPaper.widthMm}mm !important;
             height: ${selectedPaper.heightMm}mm !important;
             overflow: hidden !important;
@@ -151,8 +153,21 @@ export default function Home() {
       `}</style>
 
       {/* SIDEBAR CONTROL PANEL */}
-      <aside className="w-80 border-r border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 overflow-y-auto flex flex-col gap-6 shadow-sm shrink-0">
-        
+      <aside className="flex w-full flex-col gap-6 bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-6 xl:h-full xl:w-80 xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-gray-300 xl:dark:border-zinc-800">
+        <button
+          type="button"
+          aria-expanded={settingsOpen}
+          aria-controls="settings-panel"
+          onClick={() => setSettingsOpen((open) => !open)}
+          className="w-full rounded-md border border-gray-300 px-4 py-2 text-left font-semibold transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+        >
+          {settingsOpen ? "Hide settings" : "Show settings"}
+        </button>
+
+        <div
+          id="settings-panel"
+          className={`${settingsOpen ? "flex" : "hidden"} flex-col gap-6`}
+        >
         {/* Sequence Settings */}
         <section className="border border-gray-300 dark:border-zinc-700 rounded-md p-4 bg-gray-50 dark:bg-zinc-800/50">
           <h2 className="text-lg font-bold mb-3">Generate Sequence</h2>
@@ -312,10 +327,11 @@ export default function Home() {
             Print Sheet
           </button>
         </section>
+        </div>
       </aside>
 
       {/* PREVIEW CONTAINER */}
-      <main className="print-preview flex-1 p-8 overflow-auto flex flex-col items-center gap-8">
+      <main className="print-preview @container flex min-w-0 flex-1 flex-col items-center gap-8 overflow-auto p-3 sm:p-5 xl:p-8">
         {pages.length === 0 ? (
           <div
             style={{
@@ -334,6 +350,7 @@ export default function Home() {
                 width: `${paperWidthPx}px`,
                 height: `${paperHeightPx}px`,
                 padding: `${marginPx}px`,
+                zoom: `min(1, calc(100cqw / ${paperWidthPx}px))`,
               }}
               className="print-page bg-white border border-gray-400 shadow-lg text-black rounded-sm transition-all box-border"
             >
