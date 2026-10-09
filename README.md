@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# guibar
 
-First, run the development server:
+### Barcode sheets, made simple.
+
+Create, customize, and print barcode sheets right in your browser.
+
+[Open Guibar](https://rapkumit.github.io/guibar/)
+
+</div>
+
+---
+
+## What you can do
+
+- Generate a numbered sequence with a custom prefix, suffix, and increment.
+- Print multiple copies of each barcode ID.
+- Customize paper size, page margins, tag dimensions, spacing, and padding.
+- Add text—such as prices—to individual IDs or groups of comma-separated IDs.
+- Save named presets in your browser for settings you use often.
+- Preview a sheet responsively before printing.
+
+> **Your presets stay on your device.** Guibar stores them in this browser; they are not uploaded or synced to other devices.
+
+## Get started
+
+You’ll need [Node.js](https://nodejs.org/) and npm.
 
 ```bash
+git clone https://github.com/rapkumit/guibar.git
+cd guibar
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to use the app locally.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the local development server |
+| `npm run lint` | Check the code with ESLint |
+| `npm run build` | Build the production static export |
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+Guibar is configured to publish to GitHub Pages from the `main` branch. Push a change to `main` to start the [Pages deployment workflow](https://github.com/rapkumit/guibar/actions/workflows/deploy.yml).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The published site is available at [rapkumit.github.io/guibar](https://rapkumit.github.io/guibar/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Built with
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Next.js](https://nextjs.org/) · [React](https://react.dev/) · [Tailwind CSS](https://tailwindcss.com/) · [JsBarcode](https://github.com/lindell/JsBarcode)
