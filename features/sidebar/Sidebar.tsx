@@ -458,7 +458,7 @@ export default function Sidebar({
           </summary>
           <div className="mt-3 space-y-3">
             <p className="text-xs text-gray-500">
-              Separate IDs with commas or &amp;. Keep leading zeros; IDs in the same row share the text.
+              Use commas or &amp; between IDs, and a hyphen for an inclusive range. Keep leading zeros; all IDs in a row share the text.
             </p>
             {settings.extraLabels.map((label, index) => (
               <div
@@ -476,7 +476,7 @@ export default function Sidebar({
                       ),
                     })
                   }
-                  placeholder="IDs (e.g. 0001, 0003, & 0005)"
+                  placeholder="IDs (e.g. 0001, 0003, or 1001-1010)"
                   className="w-full min-w-0 rounded border px-2 py-1.5 text-sm dark:bg-zinc-800"
                 />
                 <input

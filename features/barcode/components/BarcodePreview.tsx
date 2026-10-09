@@ -2,6 +2,7 @@
 
 import BarcodeTag from "./BarcodeTag";
 import { PAPER_SIZES, type BarcodeSettings } from "../config";
+import { matchesBarcodeId } from "../lib/labels";
 import type { BarcodeLayout } from "../lib/layout";
 
 interface BarcodePreviewProps {
@@ -111,10 +112,7 @@ export default function BarcodePreview({
                     paddingCm={settings.paddingCm}
                     extraLabelText={
                       settings.extraLabels.find((label) =>
-                        label.ids
-                          .split(/[,&]/)
-                          .map((id) => id.trim())
-                          .includes(item.numStr)
+                        matchesBarcodeId(label.ids, item.numStr)
                       )?.text
                     }
                   />
