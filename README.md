@@ -30,9 +30,9 @@ Create, customize, and print barcode sheets right in your browser.
 
 ## Development
 
-### Build 
+If you're a regular user, just use the [github page](https://rapkumit.github.io/guibar/)
 
-> If you're a regular user, just use the [github page](https://rapkumit.github.io/guibar/)
+### Build 
 
 You’ll need [Node.js](https://nodejs.org/) and npm.
 
