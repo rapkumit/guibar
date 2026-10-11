@@ -23,13 +23,16 @@ Create, customize, and print barcode sheets right in your browser.
 
 > **Your presets stay on your device.** Guibar stores them in this browser; they are not uploaded or synced to other devices.
 
-## Roadmmap
+## Roadmap
 - [x] MVP
 - [ ] Support multiple standards of barcodes.
 - [ ] Import/Export presets from a file.
 
-## Build
-> If you're a regular user: just use the [github page](https://rapkumit.github.io/guibar/)
+## Development
+
+### Build 
+
+> If you're a regular user, just use the [github page](https://rapkumit.github.io/guibar/)
 
 You’ll need [Node.js](https://nodejs.org/) and npm.
 
@@ -42,7 +45,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to use the app locally.
 
-## Deploy
+### Deploy
 
 For this repository, Guibar is configured to publish to GitHub Pages from the `main` branch.
 
