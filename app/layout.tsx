@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Create, customize, and print barcode sheets with guibar.",
   icons: {
     icon: {
-      url: "/icons/dark/circle.svg",
+      url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/dark/circle.svg`,
       type: "image/svg+xml",
     },
   },

@@ -197,7 +197,7 @@ export default function Sidebar({
     <aside className="flex w-full flex-col gap-4 bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-5 xl:h-full xl:w-80 xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-gray-300 xl:dark:border-zinc-800">
       <div className="flex items-center gap-3">
         <Image
-          src="/icons/dark/square-w-text.svg"
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/dark/square-w-text.svg`}
           alt=""
           aria-hidden="true"
           width={40}
