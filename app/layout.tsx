@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "guibar (by @rapkumit)",
   description: "Create, customize, and print barcode sheets with guibar.",
+  icons: {
+    icon: {
+      url: "/icons/dark/circle.svg",
+      type: "image/svg+xml",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

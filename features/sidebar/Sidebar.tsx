@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useSyncExternalStore } from "react";
 import { PAPER_SIZES, type BarcodeSettings } from "../barcode/config";
 
@@ -195,16 +196,15 @@ export default function Sidebar({
   return (
     <aside className="flex w-full flex-col gap-4 bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-5 xl:h-full xl:w-80 xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-gray-300 xl:dark:border-zinc-800">
       <div className="flex items-center gap-3">
-        <div
+        <Image
+          src="/icons/dark/square-w-text.svg"
+          alt=""
           aria-hidden="true"
-          className="flex h-10 w-10 shrink-0 items-center justify-center gap-0.5 rounded-lg bg-blue-600"
-        >
-          <span className="h-5 w-0.5 bg-white" />
-          <span className="h-7 w-1 bg-white" />
-          <span className="h-4 w-0.5 bg-white" />
-          <span className="h-6 w-0.5 bg-white" />
-          <span className="h-5 w-1 bg-white" />
-        </div>
+          width={40}
+          height={40}
+          loading="eager"
+          className="h-10 w-10 shrink-0 rounded-lg"
+        />
         <div>
           <h1 className="text-xl font-bold tracking-tight">guibar</h1>
           <p className="text-sm text-gray-500">Barcode sheets, made simple.</p>
